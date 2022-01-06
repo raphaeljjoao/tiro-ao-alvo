@@ -58,7 +58,12 @@ function dispara(evento) {
 function atualizaAcertos() {
     acertos++;
     desenhaAlvo();
-    document.getElementById('acertos').innerText = acertos;
+    let elementoAcertos = document.getElementById('acertos');
+    elementoAcertos.innerText = acertos;
+    elementoAcertos.classList.add('acerto');
+    setTimeout(() => {
+        elementoAcertos.classList.remove('acerto');
+    }, 500);
 }
 
 /* Iniciando o jogo */
@@ -73,7 +78,6 @@ function mudarIntervalo(tempo){
     movimento = setInterval(desenhaAlvo, tempo);
     console.log('Taxa de atualização para criação aleatória dos alvos: ' + tempo + 'ms');
 }
-
 
 /* Dificuldade do jogo */
 document.getElementById('facil').onclick = function() { mudarIntervalo(1200) };

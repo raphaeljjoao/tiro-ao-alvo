@@ -8,6 +8,7 @@
     width: 600px;
     margin: auto;
     margin-top: 3em;
+    
 }
 
 canvas {
@@ -38,4 +39,11 @@ canvas {
     color: white;
     text-decoration: none;
     font-size: .8em;
+}
+
+.acerto {
+    display: inline-block;
+    background-color: white;
+    color: #333;
+    padding: 0px 4px;
 }
