@@ -4,6 +4,15 @@ let pincel = tela.getContext('2d');
 pincel.fillStyle = corFundo;
 pincel.fillRect(0, 0, 600, 400);
 
+// Raio do círculo
+let raio = 20;
+
+// Informações do último alvo criado
+let alvo = {};
+
+// Acertos no alvo
+let acertos = 0;
+
 function circulo(x, y, raio, cor) {
     pincel.fillStyle = cor;
     pincel.beginPath();
@@ -11,9 +20,6 @@ function circulo(x, y, raio, cor) {
     pincel.fill();
 }
 
-let raio = 20;
-let alvo = {};
-let posicao = []
 
 function desenhaAlvo() {
     let x = Math.round(Math.random() * 600) % 600;
@@ -35,19 +41,26 @@ function desenhaAlvo() {
 function dispara(evento) {
     let x = evento.pageX - tela.offsetLeft;
     let y = evento.pageY - tela.offsetTop;
-    console.log('Clique: ' + [x, y]);
-    console.log('Posição: ' + posicao);
 
     let colisaoX = x <= alvo['x'] + alvo['raio'] && x >= alvo['x'] - alvo['raio'];
     let colisaoY = y <= alvo['y'] + alvo['raio'] && y >= alvo['y'] - alvo['raio'];
 
     if (colisaoX && colisaoY) {
+        /*
         console.log('Colisão em x=' + x + " y=" + y);
         alert('Acertou!');
+        */
+       atualizaAcertos();
     }
 }
 
+function atualizaAcertos() {
+    acertos++;
+    desenhaAlvo();
+    document.getElementById('acertos').innerText = acertos;
+}
+
 desenhaAlvo();
-setInterval(desenhaAlvo, 50000);
+setInterval(desenhaAlvo, 800);
 
 tela.onclick = dispara;
