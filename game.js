@@ -1,8 +1,13 @@
 let corFundo = 'lightgray';
 let tela = document.querySelector('canvas');
 let pincel = tela.getContext('2d');
-pincel.fillStyle = corFundo;
-pincel.fillRect(0, 0, 600, 400);
+
+function limpaTela() {
+    pincel.fillStyle = '#eee';
+    pincel.fillRect(0, 0, 600, 400);
+}
+limpaTela();
+
 
 // Raio do círculo
 let raio = 20;
@@ -24,11 +29,7 @@ function circulo(x, y, raio, cor) {
 function desenhaAlvo() {
     let x = Math.round(Math.random() * 600) % 600;
     let y = Math.round(Math.random() * 400) % 400;
-    posicao = [x, y];
-
-    if (Object.keys(alvo).length) { // Se houver um alvo na tela
-        circulo(alvo['x'], alvo['y'], alvo['raio'] * 2.05, corFundo);
-    }
+    limpaTela();
 
     alvo['x'] = x;
     alvo['y'] = y;
@@ -60,7 +61,22 @@ function atualizaAcertos() {
     document.getElementById('acertos').innerText = acertos;
 }
 
+/* Iniciando o jogo */
+
 desenhaAlvo();
-setInterval(desenhaAlvo, 800);
+let movimento = setInterval(desenhaAlvo, 800);
 
 tela.onclick = dispara;
+
+function mudarIntervalo(tempo){
+    clearInterval(movimento);
+    movimento = setInterval(desenhaAlvo, tempo);
+    console.log('Taxa de atualização para criação aleatória dos alvos: ' + tempo + 'ms');
+}
+
+
+/* Dificuldade do jogo */
+document.getElementById('facil').onclick = function() { mudarIntervalo(1200) };
+document.getElementById('medio').onclick = function() { mudarIntervalo(800) };
+document.getElementById('dificil').onclick = function() { mudarIntervalo(600) };
+
