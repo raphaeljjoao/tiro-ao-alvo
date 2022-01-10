@@ -4,19 +4,16 @@ let pincel = tela.getContext('2d');
 
 function limpaTela() {
     pincel.fillStyle = '#eee';
-    pincel.fillRect(0, 0, 600, 400);
+    pincel.fillRect(0, 0, tela.width, tela.height);
 }
 limpaTela();
 
-
-// Raio do círculo
-let raio = 20;
-
-// Informações do último alvo criado
-let alvo = {};
-
-// Acertos no alvo
-let acertos = 0;
+let alvo = {
+    x : undefined,
+    y : undefined,
+    raio : 20,
+    acertos : 0
+}
 
 function circulo(x, y, raio, cor) {
     pincel.fillStyle = cor;
@@ -31,37 +28,33 @@ function desenhaAlvo() {
     let y = Math.round(Math.random() * 400) % 400;
     limpaTela();
 
-    alvo['x'] = x;
-    alvo['y'] = y;
-    alvo['raio'] = raio;
-    circulo(x, y, raio * 2, 'red');
-    circulo(x, y, raio * 1.5, 'white');
-    circulo(x, y, raio, 'red');
+    alvo.x= x;
+    alvo.y = y;
+
+    circulo(x, y, alvo.raio * 2, 'red');
+    circulo(x, y, alvo.raio * 1.5, 'white');
+    circulo(x, y, alvo.raio, 'red');
 }
 
 function dispara(evento) {
     let x = evento.pageX - tela.offsetLeft;
     let y = evento.pageY - tela.offsetTop;
 
-    let colisaoX = x <= alvo['x'] + alvo['raio'] && x >= alvo['x'] - alvo['raio'];
-    let colisaoY = y <= alvo['y'] + alvo['raio'] && y >= alvo['y'] - alvo['raio'];
+    // Checagem de colisão
+    let colisaoX = x <= alvo.x + alvo.raio && x >= alvo.x- alvo.raio;
+    let colisaoY = y <= alvo.y + alvo.raio && y >= alvo.y - alvo.raio;
 
-    if (colisaoX && colisaoY) {
-        /*
-        console.log('Colisão em x=' + x + " y=" + y);
-        alert('Acertou!');
-        */
-       atualizaAcertos();
-    }
+    if (colisaoX && colisaoY) atualizaAcertos();
 }
 
 function atualizaAcertos() {
-    acertos++;
+    alvo.acertos++;
     desenhaAlvo();
+
     let elementoAcertos = document.getElementById('acertos');
-    elementoAcertos.innerText = acertos;
+    elementoAcertos.innerText = alvo.acertos;
     elementoAcertos.classList.add('acerto');
-    setTimeout(() => {
+    setTimeout(() => { // Implementar animação com keyframes no CSS
         elementoAcertos.classList.remove('acerto');
     }, 500);
 }
@@ -76,11 +69,9 @@ tela.onclick = dispara;
 function mudarIntervalo(tempo){
     clearInterval(movimento);
     movimento = setInterval(desenhaAlvo, tempo);
-    console.log('Taxa de atualização para criação aleatória dos alvos: ' + tempo + 'ms');
 }
 
 /* Dificuldade do jogo */
 document.getElementById('facil').onclick = function() { mudarIntervalo(1200) };
 document.getElementById('medio').onclick = function() { mudarIntervalo(800) };
 document.getElementById('dificil').onclick = function() { mudarIntervalo(600) };
-
