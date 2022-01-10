@@ -46,17 +46,19 @@ canvas {
 
 .acerto {
     display: inline-block;
-    animation: acerto 1s;
+    animation: acerto .7s;
 }
 
 @keyframes acerto {
     from {
         background-color: white;
         color: #333;
+        padding: 0 5px;
     }
     
     to {
         background-color: #333;
         color: white;
+        padding: 0;
     }
 }

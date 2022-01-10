@@ -56,7 +56,7 @@ function atualizaAcertos() {
     elementoAcertos.classList.add('acerto');
     setTimeout(() => { // Implementar animação com keyframes no CSS
         elementoAcertos.classList.remove('acerto');
-    }, 500);
+    }, 700);
 }
 
 /* Iniciando o jogo */
